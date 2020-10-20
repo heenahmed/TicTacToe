@@ -10,9 +10,11 @@ public class TicTactoe {
 								{' ','|',' ','|',' '},
 								{'-','+','-','+','-'},
 								{' ','|',' ','|',' '}};
-		printGameboard(gameboard);
+	
 		
 		while(true) {
+			printGameboard(gameboard);
+			
 			Scanner scan = new Scanner(System.in);
 			System.out.println("Enter your placement (1-9) : ");
 			int pos = scan.nextInt();
@@ -20,6 +22,7 @@ public class TicTactoe {
 				System.out.println("position already taken , please enter correct position");
 				pos = scan.nextInt();
 			}
+			clearScreen();
 			
 			placepiece(gameboard,pos,"player");
 			String result = checkWin();
@@ -29,7 +32,8 @@ public class TicTactoe {
 				break;
 			}
 			
-			
+			clearScreen();
+
 			Random rand = new Random();
 			int cpupos = rand.nextInt(9)+1;
 			while(playerpositions.contains(cpupos) || cpupositions.contains(cpupos)) {
@@ -37,6 +41,7 @@ public class TicTactoe {
 			}
 			placepiece(gameboard , cpupos , "cpu");
 			printGameboard(gameboard);
+			clearScreen();
 			
 			result = checkWin();
 			if(result.length()>0) {
@@ -44,12 +49,23 @@ public class TicTactoe {
 				System.out.println(result);
 				break;
 			}
+
+			clearScreen();
 			
 		}
 
 	}
+
+	public static void clearScreen() {  
+		System.out.print("\033[H\033[2J");  
+		System.out.flush();  
+	} 
 		
 	public static void printGameboard(char[][] gameboard) {
+		System.out.println();
+		System.out.println("          TIC-TAC-TOE");
+		System.out.println();
+
 		for(char[] row :gameboard) {
 			for(char c :row) {
 				System.out.print(c);
@@ -124,11 +140,11 @@ public class TicTactoe {
 		
 		for(List l:winning) {
 			if(playerpositions.containsAll(l)) {
-				return "Congratulations, You win!";
+				return "\nCongratulations, You win!\n";
 			}else if(cpupositions.containsAll(l)) {
-				return "you Lost , better luck next time";	
+				return "\nyou Lost , better luck next time\n";	
 			}else if(playerpositions.size()+cpupositions.size() == 9) {
-				return "it's a tie";
+				return "\nit's a tie\n";
 			}
 		}
 		
